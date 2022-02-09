@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Numbering</title>
+        <style>
+            .container {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+            }
+            .buttons button {
+                margin-top: 5px;
+                padding: 10px 20px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <textarea id="text" height="10" rows="30" cols="50"></textarea>
+            <div class="buttons">
+                <button onclick="numberOrder()">Number Order</button>
+            </div>
+        </div>
+    </body>
+    <script>
+        function numberOrder() {
+            let text = document.getElementById("text");
+            let urls = text?.value?.trim().split("\n");
+            if (!urls) return;
+            let linksPerNum = 3;
+            let startNum = 1;
+            let usedCount = 0;
+            for (let i = 0; i < urls.length; i++) {
+                urls[i] = startNum + "/ " + urls[i];
+                usedCount = usedCount + 1;
+                if (usedCount >= linksPerNum) {
+                    usedCount = 0;
+                    startNum = startNum + 1;
+                }
+            }
+            let finalText = urls.join("\n\n");
+            text.value = finalText;
+            navigator.clipboard.writeText(finalText).then(() => {
+                window.alert("Copied to Clipboard");
+            });
+        }
+    </script>
+</html>
